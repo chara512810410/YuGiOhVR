@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class CameraFeed : MonoBehaviour
+{
+    private WebCamTexture webCamTexture;
+
+    void Start()
+    {
+        // カメラデバイスの取得
+        WebCamDevice[] devices = WebCamTexture.devices;
+
+        if (devices.Length > 0)
+        {
+            // 最初のカメラデバイスを使用
+            webCamTexture = new WebCamTexture(devices[0].name);
+            Renderer renderer = GetComponent<Renderer>();
+            renderer.material.mainTexture = webCamTexture;
+            webCamTexture.Play(); // カメラ映像の再生
+        }
+        else
+        {
+            Debug.LogError("カメラデバイスが見つかりません。");
+        }
+    }
+
+    void OnDisable()
+    {
+        // カメラ映像の停止
+        if (webCamTexture != null && webCamTexture.isPlaying)
+        {
+            webCamTexture.Stop();
+        }
+    }
+}
