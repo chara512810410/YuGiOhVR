@@ -1,0 +1,32 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ImageChanger : MonoBehaviour
+{
+    public InputField inputField; // 名前を入力するためのInputField
+    public Image displayImage;    // 画像を表示するImageコンポーネント
+    public Sprite defaultSprite;  // デフォルトの画像
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // 初期状態でデフォルトの画像を表示
+        displayImage.sprite = defaultSprite;
+    }
+
+    // 名前が入力されたときに呼び出されるメソッド
+    public void OnNameEntered()
+    {
+        string name = inputField.text;
+        Sprite newSprite = Resources.Load<Sprite>(name); // Resourcesフォルダから画像をロード
+
+        if (newSprite != null)
+        {
+            displayImage.sprite = newSprite; // 画像を変更
+        }
+        else
+        {
+            Debug.Log("画像が見つかりません: " + name);
+        }
+    }
+}
